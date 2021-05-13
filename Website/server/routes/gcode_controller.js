@@ -20,7 +20,7 @@ var endPos = [Process_Theta_Rho.X_SIZE / 2, Process_Theta_Rho.Y_SIZE / 2] // Bal
 var cmdQueue = [];
 
 const port = new SerialPort(PORT, {
-    baudRate: 250000
+    baudRate: 115200
 }).on("error", (e) => console.log(e));
 var portParser = new SerialPort.parsers.Readline();
 port.pipe(portParser);
@@ -348,6 +348,9 @@ setTimeout(() => {
     backwards = false;
     index = 0;
     file = [
+        "$G",
+        "$X",
+        "$H",
         "G90",
         "G28",
         "M220 S100",
