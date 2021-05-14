@@ -35,8 +35,8 @@ function sendNextCmd(justExecuteWithoutReadingPort = false, dat) {
     if (data.toString('utf8').includes("ok")) {
         if (cmdQueue.length > 0) {
             var cmd = cmdQueue.shift();
-            port.write(cmd + "\n");
             if (DEBUG) console.log("Send CMD: " + cmd);
+            port.write(cmd + "\n");
         } else if (index >= 0 && index < file.length) {
             // Send next gcode command
             if (file[index] == "") {
@@ -44,8 +44,8 @@ function sendNextCmd(justExecuteWithoutReadingPort = false, dat) {
                 sendNextCmd(true);           // When valid cmd found or reached end of file, 
                 return;                      // the recursive tree will collapse gracefully
             }
-            port.write(file[index] + "\n");
             if (DEBUG) console.log("Send CMD: " + file[index]);
+            port.write(file[index] + "\n");
             index += backwards ? -1 : 1;
         } else {
             if (file.length > 0)
@@ -338,7 +338,7 @@ function setDoneCallback(cb) {
 }
 
 function setSpeed(newSpeed) {
-    cmdQueue.push(`M220 S${parseFloat(newSpeed).toFixed(0)}`);
+//    cmdQueue.push(`M220 S${parseFloat(newSpeed).toFixed(0)}`);
     console.log("Set speed to " + newSpeed + "%");
 }
 
@@ -353,11 +353,12 @@ setTimeout(() => {
         "$H",
         "G90",
         "G28",
-        "M220 S100",
-        "M204 P4000 T4000",
-        "M205 J0.0001",
+//        "M220 S100",
+//        "M204 P4000 T4000",
+//        "M205 J0.0001",
         `G0 X${Process_Theta_Rho.X_SIZE / 2} Y${Process_Theta_Rho.Y_SIZE / 2}`, // center of table
     ];
+    console.log(`X=${Process_Theta_Rho.X_SIZE} Y=${Process_Theta_Rho.Y_SIZE}`);
     sendNextCmd(true); // Run start gcode
     console.log("GCode Controller Initialized");
 }, 5000);
