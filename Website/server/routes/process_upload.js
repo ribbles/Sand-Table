@@ -20,7 +20,7 @@ router.post('/', function (req, res) {
   // The name of the input field (i.e. "file") is used to retrieve the uploaded file
   let thrFile = req.files.file;
 
-  if (!thrFile.name.endsWith(".thr")) {
+  if (!thrFile.name.endsWith(".thr") && !thrFile.name.endsWith(".gcond")) {
     return res.status(400).send("Invalid file type");
   }
   var filename = thrFile.name.replace(".thr", "");

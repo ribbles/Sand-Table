@@ -21,7 +21,7 @@ var cmdQueue = [];
 
 const port = new SerialPort(PORT, {
     baudRate: 115200
-}).on("error", (e) => console.log(e));
+}).on("error", (e) => console.exception('SerialPort', e));
 var portParser = new SerialPort.parsers.Readline();
 port.pipe(portParser);
 
@@ -338,7 +338,7 @@ function setDoneCallback(cb) {
 }
 
 function setSpeed(newSpeed) {
-//    cmdQueue.push(`M220 S${parseFloat(newSpeed).toFixed(0)}`);
+    // cmdQueue.push(`M220 S${parseFloat(newSpeed).toFixed(0)}`);
     console.log("Set speed to " + newSpeed + "%");
 }
 
@@ -353,9 +353,9 @@ setTimeout(() => {
         "$H",
         "G90",
         "G28",
-//        "M220 S100",
-//        "M204 P4000 T4000",
-//        "M205 J0.0001",
+        // "M220 S100",
+        // "M204 P4000 T4000",
+        // "M205 J0.0001",
         `G0 X${Process_Theta_Rho.X_SIZE / 2} Y${Process_Theta_Rho.Y_SIZE / 2}`, // center of table
     ];
     console.log(`X=${Process_Theta_Rho.X_SIZE} Y=${Process_Theta_Rho.Y_SIZE}`);

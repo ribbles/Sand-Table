@@ -49,7 +49,7 @@ class Tracks extends React.Component {
                   <span className="pl-2">Upload a new track</span>
                   <input
                     type="file"
-                    accept=".thr"
+                    accept=".thr,.gcode"
                     onChange={(e) => this.props.uploadNew(e)}
                     hidden
                   />
