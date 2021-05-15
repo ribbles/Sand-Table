@@ -197,16 +197,18 @@ function findRadiusAndCenterOfCircleFromPointsOnArc(x1, y1, x2, y2, x3, y3) {
 
 function process_file(filename, callback) {
 
+    if (!fs.existsSync(__dirname + "/../../files/" + filename + ".thr"))
+    {
+        callback();
+        return;   
+    }
+
     var prevRho, prevTheta = null;
 
     var outStream = fs.createWriteStream(__dirname + "/../../files/" + filename + ".gcode");
     var outFillStream = fs.createWriteStream(__dirname + "/../../files/" + filename + " (fill).gcode");
 
     var inStream = fs.createReadStream(__dirname + "/../../files/" + filename + ".thr")
-        .on('error', function (err) {
-            console.log('Error while reading file.', err);
-            outStream.end(() => callback());
-        })
         .pipe(es.split())
         .pipe(es.mapSync(function (line) {
             console.log('Start converting ' + filename + '.thr to gcode');
