@@ -205,7 +205,6 @@ function process_file(filename, callback) {
     var inStream = fs.createReadStream(__dirname + "/../../files/" + filename + ".thr")
         .on('error', function (err) {
             console.log('Error while reading file.', err);
-            setImmediate(() => inStream.resume());
             outStream.end(() => callback());
         })
         .pipe(es.split())
@@ -269,16 +268,11 @@ function process_file(filename, callback) {
             // resume the readstream, possibly from a callback
             setImmediate(() => inStream.resume());
         })
-            .on('error', function (err) {
-                console.log('Error in map.', err);
-                setImmediate(() => inStream.resume());
-                outStream.end(() => callback());
-            })
-            .on('end', function () {
-                console.log('Done converting ' + filename + '.thr to gcode');
-                outStream.end(() => callback());
-            })
-        );
+        .on('end', function () {
+            console.log('Done converting ' + filename + '.thr to gcode');
+            outStream.end(() => callback());
+        })
+    );
 }
 
 function process_thr_file_to_gcode(filename, callback) {
