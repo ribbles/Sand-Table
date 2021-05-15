@@ -266,6 +266,7 @@ function process_file(filename, callback) {
         })
             .on('error', function (err) {
                 console.log('Error while reading file.', err);
+                setImmediate(() => inStream.resume());
                 outStream.end(() => callback());
             })
             .on('end', function () {
