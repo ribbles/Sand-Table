@@ -8,6 +8,12 @@ import trackmanager from "./routes/track_manager";
 import ledcontroller from "./routes/led_controller";
 import playlistmanager from "./routes/playlist_manager";
 
+process.on('uncaughtException', function (err) {
+  console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
+  console.error(err.stack)
+  process.exit(1)
+})
+
 const app = express();
 
 // Disable caching
