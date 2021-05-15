@@ -203,6 +203,11 @@ function process_file(filename, callback) {
     var outFillStream = fs.createWriteStream(__dirname + "/../../files/" + filename + " (fill).gcode");
 
     var inStream = fs.createReadStream(__dirname + "/../../files/" + filename + ".thr")
+        .on('error', function (err) {
+            console.log('Error while reading file.', err);
+            setImmediate(() => inStream.resume());
+            outStream.end(() => callback());
+        })
         .pipe(es.split())
         .pipe(es.mapSync(function (line) {
             console.log('Start converting ' + filename + '.thr to gcode');
@@ -273,11 +278,7 @@ function process_file(filename, callback) {
                 console.log('Done converting ' + filename + '.thr to gcode');
                 outStream.end(() => callback());
             })
-        ).on('error', function (err) {
-            console.log('Error while reading file.', err);
-            setImmediate(() => inStream.resume());
-            outStream.end(() => callback());
-        });
+        );
 }
 
 function process_thr_file_to_gcode(filename, callback) {
