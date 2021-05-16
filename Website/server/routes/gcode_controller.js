@@ -53,6 +53,8 @@ function sendNextCmd(justExecuteWithoutReadingPort = false, dat) {
             file = [];
             index = 0;
         }
+    } else {
+        console.warn("Unexpected GCODE response:", data)
     }
 }
 portParser.on('data', (dat) => sendNextCmd(false, dat));
